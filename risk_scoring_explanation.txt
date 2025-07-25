@@ -1,0 +1,20 @@
+
+Data Collection:
+- Used Etherscan API to fetch all normal transactions for each wallet address.
+- (For production, use Compound-specific contract events for more precise protocol activity.)
+
+Feature Selection:
+- num_txns: Total number of transactions (proxy for activity/experience).
+- avg_value: Average value per transaction (not directly used in score, but available for further analysis).
+- failed_txns: Number of failed transactions (proxy for risky/failed actions).
+- unique_contracts: Number of unique contracts interacted with (proxy for protocol diversity).
+
+Scoring Method:
+- Features are normalized across all wallets.
+- Score = 1000 * (0.5 * norm_txns + 0.3 * norm_failed + 0.2 * norm_unique)
+- Lower number of txns and unique contracts, and higher failed txns, increase risk (lower score).
+- Score is clipped to [0, 1000].
+
+Justification:
+- More active wallets with diverse protocol interactions and fewer failed txns are considered lower risk.
+- The model is simple, interpretable, and can be extended with more protocol-specific features.
